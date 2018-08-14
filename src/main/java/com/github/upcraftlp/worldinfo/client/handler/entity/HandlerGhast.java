@@ -1,4 +1,4 @@
-package com.github.upcraftlp.worldinfo.client.handler;
+package com.github.upcraftlp.worldinfo.client.handler.entity;
 
 import com.github.upcraftlp.worldinfo.api.entity.IEntityRenderHandler;
 import net.minecraft.entity.monster.EntityGhast;

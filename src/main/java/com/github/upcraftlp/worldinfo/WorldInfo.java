@@ -1,10 +1,14 @@
 package com.github.upcraftlp.worldinfo;
 
 import com.github.upcraftlp.worldinfo.api.WorldInfoRenderHandlers;
-import com.github.upcraftlp.worldinfo.client.handler.HandlerElderGuardian;
-import com.github.upcraftlp.worldinfo.client.handler.HandlerGhast;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractSkeleton;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerElderGuardian;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerGhast;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerWitherSkeleton;
+import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityElderGuardian;
 import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.monster.EntityWitherSkeleton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dimdev.rift.listener.MinecraftStartListener;
@@ -28,9 +32,8 @@ public class WorldInfo implements MinecraftStartListener {
 
     //actually sorted by network IDs
     private static void registerVanillaEntityHandlers() {
-        WorldInfoRenderHandlers.addEntityHandler(EntityElderGuardian.class, new HandlerElderGuardian());
-        //TODO 4 elder guardian
-        //TODO 5 wither skeleton
+        WorldInfoRenderHandlers.addEntityHandler(EntityElderGuardian.class, new HandlerElderGuardian()); //4
+        WorldInfoRenderHandlers.addEntityHandler(EntityWitherSkeleton.class, new HandlerWitherSkeleton()); //5
         //TODO 6 stray
         //TODO 23 husk
         //TODO 27 zombie villager
@@ -43,7 +46,7 @@ public class WorldInfo implements MinecraftStartListener {
         //TODO 36 vindicator
         //TODO 37 illusioner
         //TODO 50 creeper
-        //TODO 51 skeleton
+        WorldInfoRenderHandlers.addEntityHandler(AbstractSkeleton.class, new HandlerAbstractSkeleton()); //51
         //TODO 52 spider
         //TODO 53 giant
         //TODO 54 zombie
