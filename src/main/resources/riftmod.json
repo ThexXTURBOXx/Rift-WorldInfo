@@ -1,0 +1,11 @@
+{
+    "id": "world_info",
+    "name": "WorldInfo",
+    "authors": [
+        "UpcraftLP"
+    ],
+    "listeners": [
+        "com.github.upcraftlp.worldinfo.WorldInfo",
+        "com.github.upcraftlp.worldinfo.client.HudRenderer"
+    ]
+}
