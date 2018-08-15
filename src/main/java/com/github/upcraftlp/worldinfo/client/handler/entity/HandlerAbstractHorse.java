@@ -8,6 +8,7 @@ public class HandlerAbstractHorse implements IEntityRenderHandler<AbstractHorse>
     @Override
     public float getHeight(AbstractHorse horse) {
         return horse.isChild() ? horse.height + 2.8F : 5.0F;
+        //return horse.func_195046_g(Minecraft.getMinecraft().getRenderPartialTicks()); //TODO adjust size when horse is standing!
     }
 
     @Override
