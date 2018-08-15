@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 public interface IEntityRenderHandler<T extends EntityLivingBase> {
 
     default float getWidth(T t) {
-        return t.width;
+        return Math.max(t.width, getHeight(t)) * 2.0F;
     }
 
     default float getHeight(T t) {

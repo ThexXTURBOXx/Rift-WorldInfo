@@ -12,12 +12,17 @@ public class HandlerElderGuardian implements IEntityRenderHandler<EntityElderGua
 
     @Override
     public float getWidth(EntityElderGuardian guardian) {
-        return 4.0F;
+        return 12.0F;
     }
 
     @Override
     public float getOffsetY() {
         return 0.8F;
+    }
+
+    @Override
+    public float getOffsetX() {
+        return -0.3F;
     }
 
     @Override

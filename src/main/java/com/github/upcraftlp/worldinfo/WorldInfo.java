@@ -4,6 +4,7 @@ import com.github.upcraftlp.worldinfo.api.RenderingHandlers;
 import com.github.upcraftlp.worldinfo.api.entity.DefaultEntityHandler;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractFish;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractHorse;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerDolphin;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerElderGuardian;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerGhast;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerLlama;
@@ -27,6 +28,7 @@ import net.minecraft.entity.monster.EntityEndermite;
 import net.minecraft.entity.monster.EntityEvoker;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntityGiantZombie;
+import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntityPhantom;
 import net.minecraft.entity.monster.EntityPolarBear;
@@ -44,6 +46,7 @@ import net.minecraft.entity.passive.AbstractFish;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityDolphin;
 import net.minecraft.entity.passive.EntityLlama;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityParrot;
@@ -76,10 +79,8 @@ public class WorldInfo implements MinecraftStartListener {
         RenderingHandlers.addInfoExclusion(EntityArmorStand.class);
         //TODO player
 
-        //dolphin: fine
         //wolf: fine
         //chicken: fine
-        //guardian: fine
         //pig: fine
         //sheep: fine
         //zombie villager: fine
@@ -88,17 +89,25 @@ public class WorldInfo implements MinecraftStartListener {
         RenderingHandlers.addEntityHandler(EntityEvoker.class,          handlerVillager);
         RenderingHandlers.addEntityHandler(EntityVillager.class,        handlerVillager);
         RenderingHandlers.addEntityHandler(EntityVex.class,             new HandlerVex());
+        RenderingHandlers.addEntityHandler(AbstractHorse.class,         new HandlerAbstractHorse()); //horse, skeleton horse, zombie horse
+        RenderingHandlers.addEntityHandler(EntityElderGuardian.class,   new HandlerElderGuardian());
+        RenderingHandlers.addEntityHandler(EntityGhast.class,           new HandlerGhast());
+        RenderingHandlers.addEntityHandler(EntitySquid.class,           new HandlerSquid());
+        RenderingHandlers.addEntityHandler(EntitySlime.class,           new HandlerSlime()); //magma cube
+        RenderingHandlers.addEntityHandler(EntityDolphin.class,         new HandlerDolphin());
+
         RenderingHandlers.addEntityHandler(EntityRabbit.class,          new HandlerRabbit());
         RenderingHandlers.addEntityHandler(EntityLlama.class,           new HandlerLlama());
         RenderingHandlers.addEntityHandler(EntityTropicalFish.class,    new HandlerTropicalFish());
         RenderingHandlers.addEntityHandler(AbstractFish.class,          new HandlerAbstractFish()); //salmon, cod
-        RenderingHandlers.addEntityHandler(AbstractHorse.class,         new HandlerAbstractHorse()); //horse, skeleton horse, zombie horse
+        RenderingHandlers.addEntityHandler(EntityGuardian.class,        new DefaultEntityHandler<>(4.0F));
+
+
+        //TODO re-check all below handlers!
+
         RenderingHandlers.addEntityHandler(EntityParrot.class,          new HandlerParrot());
-        RenderingHandlers.addEntityHandler(EntityElderGuardian.class,   new HandlerElderGuardian());
-        RenderingHandlers.addEntityHandler(EntityGhast.class,           new HandlerGhast());
-        RenderingHandlers.addEntityHandler(EntitySquid.class,           new HandlerSquid());
+
         RenderingHandlers.addEntityHandler(EntityShulker.class,         new HandlerShulker());
-        RenderingHandlers.addEntityHandler(EntitySlime.class,           new HandlerSlime()); //magma cube
         RenderingHandlers.addEntityHandler(EntityPolarBear.class,       new HandlerPolarBear());
         RenderingHandlers.addEntityHandler(EntitySpider.class,          new DefaultEntityHandler<>(0.4F, -0.15F, 1.6F));
         RenderingHandlers.addEntityHandler(AbstractChestHorse.class,    new DefaultEntityHandler<>(3.7F, -0.2F));

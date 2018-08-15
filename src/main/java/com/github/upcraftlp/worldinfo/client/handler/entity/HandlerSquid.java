@@ -23,8 +23,18 @@ public class HandlerSquid implements IEntityRenderHandler<EntitySquid> {
     }
 
     @Override
+    public float getOffsetX() {
+        return -0.1F;
+    }
+
+    @Override
     public float getHeight(EntitySquid squid) {
-        return 2.4F;
+        return 3.4F;
+    }
+
+    @Override
+    public float getWidth(EntitySquid squid) {
+        return 4.0F;
     }
 
     @Override

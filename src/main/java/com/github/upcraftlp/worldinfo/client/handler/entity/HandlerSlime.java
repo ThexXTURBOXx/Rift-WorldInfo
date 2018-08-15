@@ -14,6 +14,11 @@ public class HandlerSlime implements IEntityRenderHandler<EntitySlime> {
     }
 
     @Override
+    public float getWidth(EntitySlime slime) {
+        return getHeight(slime);
+    }
+
+    @Override
     public float getScale(EntitySlime slime) {
         int size = slime.getSlimeSize() - 1;
         return size < 1 ? 1.5F : size > MAX_SIZE ? 1.0F : (1.0F / (size * 0.8F)) + size * 0.1F; //1.0F / slime.getSlimeSize();

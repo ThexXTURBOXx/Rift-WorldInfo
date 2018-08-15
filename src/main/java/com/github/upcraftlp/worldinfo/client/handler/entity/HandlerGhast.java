@@ -7,21 +7,21 @@ public class HandlerGhast implements IEntityRenderHandler<EntityGhast> {
 
     @Override
     public float getWidth(EntityGhast ghast) {
-        return 4.0F;
+        return 14.0F;
     }
 
     @Override
     public float getHeight(EntityGhast ghast) {
-        return 8.5F;
+        return 16.5F;
     }
 
     @Override
     public float getScale(EntityGhast ghast) {
-        return 0.2F;
+        return 0.3F;
     }
 
     @Override
     public float getOffsetY() {
-        return 6.0F;
+        return 7.5F;
     }
 }

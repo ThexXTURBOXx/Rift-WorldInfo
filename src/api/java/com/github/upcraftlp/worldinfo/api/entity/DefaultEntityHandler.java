@@ -26,6 +26,11 @@ public class DefaultEntityHandler<T extends EntityLivingBase> implements IEntity
     }
 
     @Override
+    public float getWidth(T t) {
+        return Math.max(this.getHeight(t), t.width) * 2.0F;
+    }
+
+    @Override
     public float getOffsetY() {
         return this.yOffset;
     }
