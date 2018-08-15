@@ -2,14 +2,28 @@ package com.github.upcraftlp.worldinfo;
 
 import com.github.upcraftlp.worldinfo.api.WorldInfoRenderHandlers;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractSkeleton;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractVillager;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerBlaze;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerCow;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerCreeper;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerElderGuardian;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerGhast;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerParrot;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerWitherSkeleton;
+import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerZombie;
 import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.monster.AbstractIllager;
 import net.minecraft.entity.monster.AbstractSkeleton;
+import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityElderGuardian;
+import net.minecraft.entity.monster.EntityEvoker;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntityWitherSkeleton;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityParrot;
+import net.minecraft.entity.passive.EntityVillager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dimdev.rift.listener.MinecraftStartListener;
@@ -31,61 +45,54 @@ public class WorldInfo implements MinecraftStartListener {
         registerVanillaEntityHandlers();
     }
 
-    //actually sorted by network IDs
     private static void registerVanillaEntityHandlers() {
-        WorldInfoRenderHandlers.addEntityHandler(EntityElderGuardian.class, new HandlerElderGuardian()); //4
-        WorldInfoRenderHandlers.addEntityHandler(EntityWitherSkeleton.class, new HandlerWitherSkeleton()); //5
-        //TODO 6 stray
-        //TODO 23 husk
-        //TODO 27 zombie villager
-        //TODO 28 skeleton horse
-        //TODO 29 zombie horse
-        //TODO 31 donkey
-        //TODO 32 mule
-        //TODO 34 evoker
-        //TODO 35 vex
-        //TODO 36 vindicator
-        //TODO 37 illusioner
-        //TODO 50 creeper
-        WorldInfoRenderHandlers.addEntityHandler(AbstractSkeleton.class, new HandlerAbstractSkeleton()); //51
-        //TODO 52 spider
-        //TODO 53 giant
-        //TODO 54 zombie
-        //TODO 55 slime
-        WorldInfoRenderHandlers.addEntityHandler(EntityGhast.class, new HandlerGhast()); //56
-        //TODO 57 zombie pigman
-        //TODO 58 enderman
-        //TODO 59 cave spider
-        //TODO 60 silverfish
-        //TODO 61 blaze
-        //TODO 62 magma cube
-        //TODO 63 ender dragon
-        //TODO 64 wither
-        //TODO 65 bat
-        //TODO 66 witch
-        //TODO 67 endermite
-        //guardian: fine //68
-        //TODO 69 Shulker
-
-        //TODO 90 pig
-        //TODO 91 sheep
-        //TODO 92 cow
-        //chicken: fine //93
-        //TODO 94 squid
-        //TODO 95 wolf
-        //TODO 96 mooshroom
-        //TODO 97 snow golem
-        //TODO 98 ocelot
-        //TODO 99 iron golem
-        //TODO 100 horse
-        //TODO 101 rabbit
-        //TODO 102 polar bear
-        //TODO 103 llama
-        //TODO 105 parrot
-        //TODO 120 villager
-
+        WorldInfoRenderHandlers.addInfoExclusion(EntityArmorStand.class);
+        //TODO skeleton horse
+        //TODO zombie horse
+        //TODO donkey
+        //TODO mule
+        //TODO evoker
+        //TODO spider
+        //TODO giant
+        //TODO slime
+        //TODO enderman
+        //TODO cave spider
+        //TODO silverfish
+        //TODO magma cube
+        //TODO ender dragon
+        //TODO wither
+        //TODO bat
+        //TODO witch
+        //TODO endermite
+        //TODO Shulker
+        //TODO squid
+        //TODO snow golem
+        //TODO ocelot //smaller size!
+        //TODO iron golem
+        //TODO horse
+        //TODO rabbit
+        //TODO polar bear
+        //TODO llama
         //TODO player
 
-        WorldInfoRenderHandlers.addInfoExclusion(EntityArmorStand.class);
+        //wolf: fine
+        //chicken: fine
+        //guardian: fine
+        //pig: fine
+        //sheep: fine
+        //vex: fine
+        //zombie villager: fine
+        WorldInfoRenderHandlers.addEntityHandler(EntityParrot.class, new HandlerParrot());
+        WorldInfoRenderHandlers.addEntityHandler(EntityElderGuardian.class, new HandlerElderGuardian());
+        WorldInfoRenderHandlers.addEntityHandler(EntityWitherSkeleton.class, new HandlerWitherSkeleton());
+        WorldInfoRenderHandlers.addEntityHandler(AbstractIllager.class, new HandlerAbstractVillager<>()); //vindicator
+        WorldInfoRenderHandlers.addEntityHandler(EntityEvoker.class, new HandlerAbstractVillager<>());
+        WorldInfoRenderHandlers.addEntityHandler(EntityCreeper.class, new HandlerCreeper());
+        WorldInfoRenderHandlers.addEntityHandler(AbstractSkeleton.class, new HandlerAbstractSkeleton()); //skeleton, stray
+        WorldInfoRenderHandlers.addEntityHandler(EntityZombie.class, new HandlerZombie()); //husk, zombie pigman
+        WorldInfoRenderHandlers.addEntityHandler(EntityGhast.class, new HandlerGhast());
+        WorldInfoRenderHandlers.addEntityHandler(EntityBlaze.class, new HandlerBlaze());
+        WorldInfoRenderHandlers.addEntityHandler(EntityCow.class, new HandlerCow()); //mooshroom
+        WorldInfoRenderHandlers.addEntityHandler(EntityVillager.class, new HandlerAbstractVillager<>());
     }
 }
