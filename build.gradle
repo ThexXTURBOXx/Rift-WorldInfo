@@ -55,9 +55,20 @@ tasks.build.doLast {
 repositories {
     mavenCentral()
     mavenLocal()
+
     maven {
         name = "DimDev"
         url = "https://www.dimdev.org/maven/"
+    }
+
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven"
+    }
+
+    maven {
+        name = "JitPack"
+        url = "https://jitpack.io"
     }
 }
 
