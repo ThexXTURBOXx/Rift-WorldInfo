@@ -38,9 +38,12 @@ public class HudRenderer implements OverlayRenderer {
                 float scale = 10;
                 int zLevel = 100;
                 if(result.typeOfHit == RayTraceResult.Type.BLOCK) {
+
+                    scale = 20;
+                    y += 4;
+
                     BlockPos pos = result.getBlockPos();
                     IBlockState state = mc.world.getBlockState(pos);
-
                     ItemStack stack = state.getBlock().getItem(mc.world, pos, state);
                     //TODO stack nullable?
 
@@ -57,16 +60,16 @@ public class HudRenderer implements OverlayRenderer {
                     RenderHelper.enableGUIStandardItemLighting();
                     {
                         y -= bHeight / 2;
-                        GlStateManager.translate(x - bWidth / 2, y, zLevel);
+                        GlStateManager.translate(x, y, zLevel);
                         GlStateManager.scale(scale, scale, scale);
                         if(!blockRenderHandler.renderBlock(mc.world, state, pos)) {
                             mc.getItemRenderer().renderItem(mc.player, stack, ItemCameraTransforms.TransformType.GUI);
                         }
-                        y += bHeight;
+                        y += bHeight / 2;
                     }
                     GlStateManager.popMatrix();
 
-                    y += NAME_MARGIN;
+                    y += NAME_MARGIN / 2.0F;
                     String blockDisplayName = blockRenderHandler.getBlockDisplayString(stack, state, mc.world, pos);
                     int blockNameWidth = mc.fontRenderer.getStringWidth(blockDisplayName);
                     mc.fontRenderer.drawStringWithShadow(blockDisplayName, x - blockNameWidth / 2.0F, y, 0xFFFFFFFF);
