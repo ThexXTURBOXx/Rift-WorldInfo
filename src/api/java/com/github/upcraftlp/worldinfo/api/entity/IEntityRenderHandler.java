@@ -9,7 +9,7 @@ public interface IEntityRenderHandler<T extends EntityLivingBase> {
     }
 
     default float getHeight(T t) {
-        return t.height;
+        return t.isBurning() ? t.height + 2.1F : t.height;
     }
 
     default float getScale(T t) {

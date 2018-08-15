@@ -1,8 +1,6 @@
 package com.github.upcraftlp.worldinfo.api;
 
-import com.github.upcraftlp.worldinfo.api.block.DefaultBlockRenderHandler;
 import com.github.upcraftlp.worldinfo.api.block.IBlockRenderHandler;
-import com.github.upcraftlp.worldinfo.api.entity.DefaultEntityRenderHandler;
 import com.github.upcraftlp.worldinfo.api.entity.IEntityRenderHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +15,8 @@ public class RenderingHandlers {
     private static final Map<Class, IEntityRenderHandler> ENTITY_RENDER_HANDLERS = new HashMap<>();
     private static final Map<ResourceLocation, IBlockRenderHandler> BLOCK_RENDER_HANDLERS = new HashMap<>();
     private static final Set<Class<? extends EntityLivingBase>> BLACKLISTED_ENTITIES = new HashSet<>();
+    private static final IEntityRenderHandler DEFAULT_ENTITY_HANDLER = new IEntityRenderHandler(){};
+    private static final IBlockRenderHandler DEFAULT_BLOCK_RENDER_HANDLER = new IBlockRenderHandler() {};
 
     /**
      * add custom entity handlers
@@ -32,7 +32,7 @@ public class RenderingHandlers {
             renderHandler = ENTITY_RENDER_HANDLERS.get(entityClass.getSuperclass());
             ENTITY_RENDER_HANDLERS.put(entityClass, renderHandler);
         }
-        return renderHandler != null ? renderHandler : (IEntityRenderHandler<T>) DefaultEntityRenderHandler.INSTANCE;
+        return renderHandler != null ? renderHandler : (IEntityRenderHandler<T>) DEFAULT_ENTITY_HANDLER;
     }
 
     /**
@@ -43,7 +43,7 @@ public class RenderingHandlers {
     }
 
     public static IBlockRenderHandler getBlockHandler(ResourceLocation block) {
-        return BLOCK_RENDER_HANDLERS.getOrDefault(block, DefaultBlockRenderHandler.INSTANCE);
+        return BLOCK_RENDER_HANDLERS.getOrDefault(block, DEFAULT_BLOCK_RENDER_HANDLER);
     }
 
     /**
