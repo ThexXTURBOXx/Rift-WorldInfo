@@ -5,6 +5,7 @@ import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractSkele
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerElderGuardian;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerGhast;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerWitherSkeleton;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityElderGuardian;
 import net.minecraft.entity.monster.EntityGhast;
@@ -84,5 +85,7 @@ public class WorldInfo implements MinecraftStartListener {
         //TODO 120 villager
 
         //TODO player
+
+        WorldInfoRenderHandlers.addInfoExclusion(EntityArmorStand.class);
     }
 }

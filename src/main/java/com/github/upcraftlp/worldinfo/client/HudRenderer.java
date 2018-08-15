@@ -74,24 +74,26 @@ public class HudRenderer implements OverlayRenderer {
                 else if(result.typeOfHit == RayTraceResult.Type.ENTITY) {
                     if(result.entityHit instanceof EntityLivingBase && result.entityHit.isEntityAlive()) {
                         EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                        IEntityRenderHandler renderHandler = WorldInfoRenderHandlers.getEntityHandler(entity.getClass());
-                        scale *= renderHandler.getScale(entity);
-                        float eHeight = renderHandler.getHeight(entity) * scale;
-                        GlStateManager.pushMatrix();
-                        {
-                            y += NAME_MARGIN;
-                            y += eHeight / 2;
-                            GlStateManager.translate(x + renderHandler.getOffsetX() * scale, y - renderHandler.getOffsetY() * scale, zLevel);
-                            if(!renderHandler.renderEntity(entity)) {
-                                GuiInventory.drawEntityOnScreen(0, 0, (int) scale * 2, 45, 0, entity);
+                        if(!WorldInfoRenderHandlers.isEntityBlacklisted(entity.getClass())) {
+                            IEntityRenderHandler renderHandler = WorldInfoRenderHandlers.getEntityHandler(entity.getClass());
+                            scale *= renderHandler.getScale(entity);
+                            float eHeight = renderHandler.getHeight(entity) * scale;
+                            GlStateManager.pushMatrix();
+                            {
+                                y += NAME_MARGIN;
+                                y += eHeight / 2;
+                                GlStateManager.translate(x + renderHandler.getOffsetX() * scale, y - renderHandler.getOffsetY() * scale, zLevel);
+                                if(!renderHandler.renderEntity(entity)) {
+                                    GuiInventory.drawEntityOnScreen(0, 0, (int) scale * 2, 45, 0, entity);
+                                }
                             }
-                        }
-                        GlStateManager.popMatrix();
+                            GlStateManager.popMatrix();
 
-                        y += NAME_MARGIN;
-                        String name = renderHandler.getEntityDisplayString(entity);
-                        int entityNameWidth = mc.fontRenderer.getStringWidth(name);
-                        mc.fontRenderer.drawStringWithShadow(name, x - entityNameWidth / 2.0F, y, 0xFFFFFFFF);
+                            y += NAME_MARGIN;
+                            String name = renderHandler.getEntityDisplayString(entity);
+                            int entityNameWidth = mc.fontRenderer.getStringWidth(name);
+                            mc.fontRenderer.drawStringWithShadow(name, x - entityNameWidth / 2.0F, y, 0xFFFFFFFF);
+                        }
                     }
                 }
             }
