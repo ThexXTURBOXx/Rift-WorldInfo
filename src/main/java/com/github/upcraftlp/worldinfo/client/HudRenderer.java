@@ -10,6 +10,8 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityMultiPart;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -33,18 +35,16 @@ public class HudRenderer implements OverlayRenderer {
             RayTraceResult result = mc.objectMouseOver;
             if(result != null) {
                 float x = width / 2.0F;
-                float y = 20;
+                float y = 20; //TODO offset if there is one or more boss bar
                 float scale = 10;
                 int zLevel = 100;
                 if(result.typeOfHit == RayTraceResult.Type.BLOCK) {
-
                     scale = 20;
                     y += 4;
-
                     BlockPos pos = result.getBlockPos();
                     IBlockState state = mc.world.getBlockState(pos);
                     ItemStack stack = state.getBlock().getItem(mc.world, pos, state);
-                    //TODO stack nullable?
+                    //FIXME is the stack nullable?
 
                     ResourceLocation itemName = Item.REGISTRY.getNameForObject(stack.getItem());
                     if(itemName == null) itemName = new ResourceLocation("air");
@@ -66,11 +66,16 @@ public class HudRenderer implements OverlayRenderer {
 
                     String blockDisplayName = blockRenderHandler.getBlockDisplayString(stack, state, mc.world, pos);
                     int blockNameWidth = mc.fontRenderer.getStringWidth(blockDisplayName);
-                    mc.fontRenderer.drawStringWithShadow(blockDisplayName, x - Math.round(blockNameWidth / 2.0F) - 2, y, 0xFFFFFFFF);
+                    mc.fontRenderer.drawStringWithShadow(blockDisplayName, x - Math.round(blockNameWidth / 2.0F) - 2, y - 2, 0xFFFFFFFF);
                 }
                 else if(result.typeOfHit == RayTraceResult.Type.ENTITY) {
-                    if(result.entityHit instanceof EntityLivingBase && result.entityHit.isEntityAlive()) {
-                        EntityLivingBase entity = (EntityLivingBase) result.entityHit;
+                    EntityLivingBase entity = null;
+                    if(result.entityHit instanceof EntityLivingBase) entity = (EntityLivingBase) result.entityHit;
+                    else if(result.entityHit instanceof MultiPartEntityPart) { //fix for multipart entities //FIXME multipart fix does not work, ender dragon does not render
+                        IEntityMultiPart multiPart = ((MultiPartEntityPart) result.entityHit).parent;
+                        if(multiPart instanceof EntityLivingBase) entity = (EntityLivingBase) multiPart;
+                    }
+                    if(entity != null && entity.isEntityAlive()) {
                         if(!RenderingHandlers.isEntityBlacklisted(entity.getClass())) {
                             IEntityRenderHandler renderHandler = RenderingHandlers.getEntityHandler(entity.getClass());
                             scale *= renderHandler.getScale(entity);
@@ -90,6 +95,7 @@ public class HudRenderer implements OverlayRenderer {
                             String name = renderHandler.getEntityDisplayString(entity);
                             int entityNameWidth = mc.fontRenderer.getStringWidth(name);
                             mc.fontRenderer.drawStringWithShadow(name, x - entityNameWidth / 2.0F, y, 0xFFFFFFFF);
+                            //TODO display entity health and possibly other information
                         }
                     }
                 }
