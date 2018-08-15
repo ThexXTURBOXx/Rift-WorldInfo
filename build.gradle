@@ -74,6 +74,9 @@ repositories {
 
 dependencies {
     implementation "org.dimdev:rift:${rift_version}:dev"
+
+    implementation "com.github.ZenDarva:AlmostEnoughItems:${aei_version}:dev"
+
 }
 
 minecraft {
