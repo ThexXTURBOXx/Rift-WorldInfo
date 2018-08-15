@@ -75,6 +75,8 @@ repositories {
 dependencies {
     implementation "org.dimdev:rift:${rift_version}:dev"
 
+    //TODO switch to runtime once ATs work
+    //TODO switch to universal jar once deobfCompile works
     implementation "com.github.ZenDarva:AlmostEnoughItems:${aei_version}:dev"
 
 }
