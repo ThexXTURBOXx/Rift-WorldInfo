@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -59,20 +58,15 @@ public class HudRenderer implements OverlayRenderer {
                     GlStateManager.pushMatrix();
                     RenderHelper.enableGUIStandardItemLighting();
                     {
-                        y -= bHeight / 2;
-                        GlStateManager.translate(x, y, zLevel);
-                        GlStateManager.scale(scale, scale, scale);
                         if(!blockRenderHandler.renderBlock(mc.world, state, pos)) {
-                            mc.getItemRenderer().renderItem(mc.player, stack, ItemCameraTransforms.TransformType.GUI);
+                            mc.getRenderItem().renderItemAndEffectIntoGUI(mc.player, stack, (int) (x - bWidth / 2.0F), (int) (y - bHeight));
                         }
-                        y += bHeight / 2;
                     }
                     GlStateManager.popMatrix();
 
-                    y += NAME_MARGIN / 2.0F;
                     String blockDisplayName = blockRenderHandler.getBlockDisplayString(stack, state, mc.world, pos);
                     int blockNameWidth = mc.fontRenderer.getStringWidth(blockDisplayName);
-                    mc.fontRenderer.drawStringWithShadow(blockDisplayName, x - blockNameWidth / 2.0F, y, 0xFFFFFFFF);
+                    mc.fontRenderer.drawStringWithShadow(blockDisplayName, x - Math.round(blockNameWidth / 2.0F) - 2, y, 0xFFFFFFFF);
                 }
                 else if(result.typeOfHit == RayTraceResult.Type.ENTITY) {
                     if(result.entityHit instanceof EntityLivingBase && result.entityHit.isEntityAlive()) {
