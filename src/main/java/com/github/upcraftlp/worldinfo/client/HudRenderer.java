@@ -1,7 +1,7 @@
 package com.github.upcraftlp.worldinfo.client;
 
 import com.github.upcraftlp.worldinfo.WorldInfo;
-import com.github.upcraftlp.worldinfo.api.WorldInfoRenderHandlers;
+import com.github.upcraftlp.worldinfo.api.RenderingHandlers;
 import com.github.upcraftlp.worldinfo.api.block.IBlockRenderHandler;
 import com.github.upcraftlp.worldinfo.api.entity.IEntityRenderHandler;
 import net.minecraft.block.state.IBlockState;
@@ -49,7 +49,7 @@ public class HudRenderer implements OverlayRenderer {
 
                     ResourceLocation itemName = Item.REGISTRY.getNameForObject(stack.getItem());
                     if(itemName == null) itemName = new ResourceLocation("air");
-                    IBlockRenderHandler blockRenderHandler = WorldInfoRenderHandlers.getBlockHandler(itemName);
+                    IBlockRenderHandler blockRenderHandler = RenderingHandlers.getBlockHandler(itemName);
                     scale *= blockRenderHandler.getScale();
                     double bWidth = blockRenderHandler.getWidth(state, mc.world, pos) * scale;
                     double bHeight = blockRenderHandler.getHeight(state, mc.world, pos) * scale;
@@ -77,8 +77,8 @@ public class HudRenderer implements OverlayRenderer {
                 else if(result.typeOfHit == RayTraceResult.Type.ENTITY) {
                     if(result.entityHit instanceof EntityLivingBase && result.entityHit.isEntityAlive()) {
                         EntityLivingBase entity = (EntityLivingBase) result.entityHit;
-                        if(!WorldInfoRenderHandlers.isEntityBlacklisted(entity.getClass())) {
-                            IEntityRenderHandler renderHandler = WorldInfoRenderHandlers.getEntityHandler(entity.getClass());
+                        if(!RenderingHandlers.isEntityBlacklisted(entity.getClass())) {
+                            IEntityRenderHandler renderHandler = RenderingHandlers.getEntityHandler(entity.getClass());
                             scale *= renderHandler.getScale(entity);
                             float eHeight = renderHandler.getHeight(entity) * scale;
                             GlStateManager.pushMatrix();

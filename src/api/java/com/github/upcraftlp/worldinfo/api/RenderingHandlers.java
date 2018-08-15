@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class WorldInfoRenderHandlers {
+public class RenderingHandlers {
 
     private static final Map<Class, IEntityRenderHandler> ENTITY_RENDER_HANDLERS = new HashMap<>();
     private static final Map<ResourceLocation, IBlockRenderHandler> BLOCK_RENDER_HANDLERS = new HashMap<>();
