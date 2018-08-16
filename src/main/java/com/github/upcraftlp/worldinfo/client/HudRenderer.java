@@ -22,6 +22,11 @@ import org.dimdev.rift.listener.client.OverlayRenderer;
 //@SuppressWarnings("unused")
 public class HudRenderer implements OverlayRenderer {
 
+    //TODO fluids -> config?
+    //TODO more information about blocks
+    //TODO entity health
+    //TODO offset if there is one or more boss bar
+
     private static final int NAME_MARGIN = 4;
     private static final int COLOR_BOX_ALPHA = 0x7F << 24;
     private static final int COLOR_WHITE = COLOR_BOX_ALPHA | 0xFFFFFF;
@@ -43,7 +48,7 @@ public class HudRenderer implements OverlayRenderer {
             RayTraceResult result = mc.objectMouseOver;
             if(result != null && result.typeOfHit != RayTraceResult.Type.MISS) {
                 x = (int) (width / 2.0F);
-                y = 2; //TODO offset if there is one or more boss bar
+                y = 2;
                 float scale = 10;
                 int zLevel = 100;
 
@@ -53,8 +58,6 @@ public class HudRenderer implements OverlayRenderer {
                     BlockPos pos = result.getBlockPos();
                     IBlockState state = mc.world.getBlockState(pos);
                     ItemStack stack = state.getBlock().getItem(mc.world, pos, state);
-                    //FIXME is the stack nullable?
-
                     ResourceLocation itemName = Item.REGISTRY.getNameForObject(stack.getItem());
                     if(itemName == null) itemName = new ResourceLocation("air");
                     IBlockRenderHandler blockRenderHandler = RenderingHandlers.getBlockHandler(itemName);
@@ -115,7 +118,6 @@ public class HudRenderer implements OverlayRenderer {
 
                             y += NAME_MARGIN;
                             mc.fontRenderer.drawStringWithShadow(name, x - entityNameWidth / 2.0F, y, 0xFFFFFFFF);
-                            //TODO display entity health and possibly other information
                         }
                     }
                 }

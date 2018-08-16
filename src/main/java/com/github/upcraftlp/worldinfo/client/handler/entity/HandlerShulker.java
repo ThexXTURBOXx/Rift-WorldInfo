@@ -8,6 +8,6 @@ public class HandlerShulker implements IEntityRenderHandler<EntityShulker> {
 
     @Override
     public float getHeight(EntityShulker shulker) {
-        return shulker.height + shulker.getClientPeekAmount(Minecraft.getMinecraft().getRenderPartialTicks()) * 3.0F;
+        return shulker.height * 2.0F + shulker.getClientPeekAmount(Minecraft.getMinecraft().getRenderPartialTicks()) * 2.9F;
     }
 }

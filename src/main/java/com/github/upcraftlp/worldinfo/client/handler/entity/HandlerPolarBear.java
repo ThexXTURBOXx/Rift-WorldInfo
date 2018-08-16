@@ -7,6 +7,6 @@ public class HandlerPolarBear implements IEntityRenderHandler<EntityPolarBear> {
 
     @Override
     public float getHeight(EntityPolarBear bear) {
-        return bear.isStanding() ? 8.2F : 1.8F;
+        return 1.5F + (bear.isStanding() ? 8.2F : 1.8F);
     }
 }
