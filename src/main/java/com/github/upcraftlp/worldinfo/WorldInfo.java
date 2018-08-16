@@ -79,9 +79,11 @@ public class WorldInfo implements MinecraftStartListener {
         registerVanillaEntityHandlers();
     }
 
+    @SuppressWarnings("unchecked")
     private static void registerVanillaEntityHandlers() {
         RenderingHandlers.addInfoExclusion(EntityArmorStand.class);
         //TODO player doesn't seem to work
+        //TODO pufferfish
 
         //zombie villager: fine
         DefaultEntityHandler handlerVillager = new DefaultEntityHandler<>(4.5F, -0.1F);
