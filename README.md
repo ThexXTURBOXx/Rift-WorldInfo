@@ -1,7 +1,7 @@
 # WorldInfo [![Project](http://cf.way2muchnoise.eu/full_300756_downloads.svg)](https://minecraft.curseforge.com/projects/300756)
 WAILA/HWYLA-like mod, displays information about the world around you on your HUD
 
-This mod requires the [\[Rift Modloader\]](https://minecraft.curseforge.com/projects/rift "CurseForge")
+This mod requires the [Rift Modloader](https://minecraft.curseforge.com/projects/rift "CurseForge")
 
 ---
 
