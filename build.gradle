@@ -125,6 +125,8 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 jar {
+    //from sourceSets.main.output
+    from sourceSets.api.output
     from "LICENSE"
     manifest.mainAttributes(
             "Built-On-Java": "${System.getProperty('java.vm.version')} + (${System.getProperty('java.vm.vendor')})",
@@ -154,6 +156,7 @@ sourceJar {
 
 task deobfJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.output
+    from sourceSets.api.output
     from "LICENSE"
     manifest.mainAttributes(
             "Built-On-Java": "${System.getProperty('java.vm.version')} + (${System.getProperty('java.vm.vendor')})",
@@ -250,7 +253,6 @@ task signApiJar(type: SignJar, dependsOn: apiJar) {
     inputFile = apiJar.archivePath
     outputFile = apiJar.archivePath
 }
-
 
 tasks.build.dependsOn signJar, signDeobfJar, signJavadocJar, signApiJar
 tasks.curseforge.mustRunAfter signJar, signDeobfJar, signJavadocJar, signApiJar
