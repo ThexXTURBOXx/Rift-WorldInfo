@@ -179,7 +179,7 @@ task apiJar(type: Jar) {
             "Timestamp": buildTimeStamp,
             "Maven-Artifact": "${project.group}:${project.archivesBaseName}:${project.version}:api"
     )
-    classifier 'deobf'
+    classifier 'api'
 }
 
 // Javadoc jar
