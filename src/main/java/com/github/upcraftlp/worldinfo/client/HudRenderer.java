@@ -19,17 +19,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import org.dimdev.rift.listener.client.OverlayRenderer;
 
-//@SuppressWarnings("unused")
+@SuppressWarnings("unused")
 public class HudRenderer implements OverlayRenderer {
 
     //TODO fluids -> config?
     //TODO more information about blocks
     //TODO entity health
     //TODO offset if there is one or more boss bar
+    //TODO show what mod a block belongs to
 
     private static final int NAME_MARGIN = 4;
     private static final int COLOR_BOX_ALPHA = 0x7F << 24;
-    private static final int COLOR_WHITE = COLOR_BOX_ALPHA | 0xFFFFFF;
+    //private static final int COLOR_WHITE = COLOR_BOX_ALPHA | 0xFFFFFF;
     private static final int COLOR_BOX_BG = COLOR_BOX_ALPHA | 0x100010;
     private static final int COLOR_BOX_FRAME_START = COLOR_BOX_ALPHA | 0x5000FF;
     private static final int COLOR_BOX_FRAME_END = COLOR_BOX_ALPHA | 0x28007F;
