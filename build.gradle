@@ -82,6 +82,9 @@ dependencies {
 
     implementation "com.github.boundarybreaker:ProbeDataProvider:${pdp_version}"
 
+    implementation "com.github.InsomniaKitten:Pylon:${pylon_version}:api"
+    annotationProcessor "com.github.InsomniaKitten:Pylon:${pylon_version}"
+
 }
 
 minecraft {
@@ -108,16 +111,25 @@ minecraft {
 
     //skip jansi warnings in the log
     clientJvmArgs += '-Dlog4j.skipJansi=true'
-}
 
-compileJava {
-    options.encoding = 'UTF-8'
+
+    //auto-fill values
+    replace "@VERSION@", project.mod_version
+    def fingerPrintKey = project.hasProperty('public_key') ? findProperty('public_key').replace(":", "").toLowerCase(Locale.ROOT) : "undefined"
+    replace "@FINGERPRINTKEY@", fingerPrintKey
+    if(project.hasProperty('update_json')) replace "@UPDATE_JSON@", findProperty('update_json')
+    replaceIn "${project.reference_class}".replace(".", "/") + ".java"
+    replaceIn "pack.mcmeta"
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
     allprojects {
         tasks.withType(Javadoc) {
             options.addStringOption('Xdoclint:none', '-quiet')
+        }
+
+        compileJava {
+            options.encoding = 'UTF-8'
         }
     }
 } else {

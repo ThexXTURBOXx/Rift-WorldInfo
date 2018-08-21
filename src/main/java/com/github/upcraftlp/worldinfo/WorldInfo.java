@@ -15,6 +15,8 @@ import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerSlime;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerSquid;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerTropicalFish;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerVex;
+import net.insomniakitten.pylon.annotation.Listener;
+import net.insomniakitten.pylon.annotation.Mod;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.AbstractIllager;
@@ -62,14 +64,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dimdev.rift.listener.MinecraftStartListener;
 
-@SuppressWarnings("unused")
+import static com.github.upcraftlp.worldinfo.WorldInfo.*;
+
+@Listener
+@Mod(id = MODID, name = MOD_NAME, authors = "UpcraftLP", version = "@VERSION@")
 public class WorldInfo implements MinecraftStartListener {
 
     private static final Logger log = LogManager.getLogger("WorldInfo");
 
     public static final String MODID = "world_info";
+    public static final String MOD_NAME = "WorldInfo";
 
-    public static Logger getLog() {
+    public static Logger getLogger() {
         return log;
     }
 

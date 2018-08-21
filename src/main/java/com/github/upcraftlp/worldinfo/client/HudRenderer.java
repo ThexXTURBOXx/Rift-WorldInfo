@@ -4,6 +4,8 @@ import com.github.upcraftlp.worldinfo.WorldInfo;
 import com.github.upcraftlp.worldinfo.api.RenderingHandlers;
 import com.github.upcraftlp.worldinfo.api.block.IBlockRenderHandler;
 import com.github.upcraftlp.worldinfo.api.entity.IEntityRenderHandler;
+import net.insomniakitten.pylon.annotation.Listener;
+import net.insomniakitten.pylon.ref.Side;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -19,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import org.dimdev.rift.listener.client.OverlayRenderer;
 
-@SuppressWarnings("unused")
+@Listener(side = Side.CLIENT)
 public class HudRenderer implements OverlayRenderer {
 
     //TODO fluids -> config?
