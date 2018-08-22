@@ -80,9 +80,10 @@ dependencies {
     //TODO switch to universal jar once deobfCompile works
     implementation "com.github.ZenDarva:AlmostEnoughItems:${aei_version}:dev"
 
-    implementation "com.github.boundarybreaker:ProbeDataProvider:${pdp_version}"
+    //implementation "com.github.boundarybreaker:ProbeDataProvider:${pdp_version}"
 
-    implementation "com.github.InsomniaKitten:Pylon:${pylon_version}:api"
+    //annotation magic ftw
+    compileOnly "com.github.InsomniaKitten:Pylon:${pylon_version}:api"
     annotationProcessor "com.github.InsomniaKitten:Pylon:${pylon_version}"
 
 }
