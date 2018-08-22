@@ -23,7 +23,7 @@ public interface IBlockRenderHandler {
      * @return a (translated) String for displaying the Block's name
      */
     default String getBlockDisplayString(ItemStack stack, IBlockState state, IBlockReader blockReader, BlockPos pos) {
-        return stack.func_200301_q().getFormattedText();
+        return stack.getDisplayName().getFormattedText();
     }
 
     /**

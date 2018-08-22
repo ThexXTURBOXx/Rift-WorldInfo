@@ -83,7 +83,7 @@ dependencies {
     //implementation "com.github.boundarybreaker:ProbeDataProvider:${pdp_version}"
 
     //annotation magic ftw
-    compileOnly "com.github.InsomniaKitten:Pylon:${pylon_version}:api"
+    compileOnly "com.github.InsomniaKitten:Pylon:${pylon_version}"
     annotationProcessor "com.github.InsomniaKitten:Pylon:${pylon_version}"
 
 }
