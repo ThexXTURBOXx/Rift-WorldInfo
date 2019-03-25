@@ -1,6 +1,8 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
+        maven { url 'https://www.jitpack.io' }
         maven {
             name = "DimDev"
             url = "https://www.dimdev.org/maven/"
@@ -15,12 +17,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'org.dimdev:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'com.matthewprenger:CurseGradle:1.0-SNAPSHOT'
+        classpath 'com.github.Chocohead:ForgeGradle:moderniser-SNAPSHOT'
     }
 }
 
-apply plugin: 'com.matthewprenger.cursegradle'
+//apply plugin: 'com.matthewprenger.cursegradle'
 //apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'java'
@@ -33,8 +34,7 @@ def buildTimeStamp = new Date().getTime()
 def username = project.artifact
 if (project.hasProperty('dev_mail')) {
     username = findProperty('dev_mail')
-}
-else if (project.hasProperty('dev_username')) {
+} else if (project.hasProperty('dev_username')) {
     username = findProperty('dev_username')
 }
 
@@ -63,22 +63,23 @@ repositories {
     }
 
     maven {
-        name = "CurseForge"
-        url = "https://minecraft.curseforge.com/api/maven"
-    }
-
-    maven {
         name = "JitPack"
         url = "https://jitpack.io"
     }
+
+    maven {
+        name = "Femtopedia"
+        url = "http://femtopedia.de/maven/"
+    }
+    maven { url 'http://repo.strezz.org/artifactory/list/Strezz-Central' }
 }
 
 dependencies {
-    implementation "org.dimdev:rift:${rift_version}:dev"
+    implementation 'com.github.Chocohead:Rift:jitpack-SNAPSHOT:dev'
 
     //TODO switch to runtime once ATs work
     //TODO switch to universal jar once deobfCompile works
-    implementation "com.github.ZenDarva:AlmostEnoughItems:${aei_version}:dev"
+    implementation "com.github.shedaniel:RoughlyEnoughItems:${rei_version}"
 
     //implementation "com.github.boundarybreaker:ProbeDataProvider:${pdp_version}"
 
@@ -99,12 +100,11 @@ minecraft {
     tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderClientTweaker'
 
     //configure login
-    if(project.hasProperty('dev_uuid')) {
+    if (project.hasProperty('dev_uuid')) {
         clientRunArgs += "--uuid=${dev_uuid}"
-    }
-    else {
+    } else {
         clientRunArgs += "--username=${username}"
-        if(project.hasProperty('dev_password')) clientRunArgs += "--password=${dev_password}"
+        if (project.hasProperty('dev_password')) clientRunArgs += "--password=${dev_password}"
     }
 
     //skip the screen to confirm that you want to load a world with missing registry entries
@@ -118,7 +118,7 @@ minecraft {
     replace "@VERSION@", project.mod_version
     def fingerPrintKey = project.hasProperty('public_key') ? findProperty('public_key').replace(":", "").toLowerCase(Locale.ROOT) : "undefined"
     replace "@FINGERPRINTKEY@", fingerPrintKey
-    if(project.hasProperty('update_json')) replace "@UPDATE_JSON@", findProperty('update_json')
+    if (project.hasProperty('update_json')) replace "@UPDATE_JSON@", findProperty('update_json')
     replaceIn "${project.reference_class}".replace(".", "/") + ".java"
     replaceIn "pack.mcmeta"
 }
@@ -268,43 +268,10 @@ task signApiJar(type: SignJar, dependsOn: apiJar) {
 }
 
 tasks.build.dependsOn signJar, signDeobfJar, signJavadocJar, signApiJar
-tasks.curseforge.mustRunAfter signJar, signDeobfJar, signJavadocJar, signApiJar
-tasks.curseforge.dependsOn build
 
 artifacts {
     archives apiJar
     archives sourceJar
     archives javadocJar
     archives deobfJar
-}
-
-def curseRelations = {
-    requiredLibrary 'rift'
-}
-
-curseforge {
-    if (project.hasProperty('curse_key')) {
-        apiKey = project.curse_key
-    }
-    if(project.hasProperty('curse_id')) {
-        project {
-            id = project.curse_id
-            changelogType = 'markdown'
-            changelog = change_log
-            releaseType = project.release_type
-
-            relations curseRelations
-
-            addArtifact apiJar
-            addArtifact sourceJar
-            addArtifact javadocJar
-            addArtifact deobfJar
-
-            addGameVersion '1.13'
-
-            mainArtifact(jar) {
-                displayName = "${project.display_name} MC${mc_version} v${buildVersion}"
-            }
-        }
-    }
 }

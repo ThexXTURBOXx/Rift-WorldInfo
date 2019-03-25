@@ -5,8 +5,8 @@ import net.minecraft.entity.monster.EntityPolarBear;
 
 public class HandlerPolarBear implements IEntityRenderHandler<EntityPolarBear> {
 
-    @Override
-    public float getHeight(EntityPolarBear bear) {
-        return 1.5F + (bear.isStanding() ? 8.2F : 1.8F);
-    }
+	@Override
+	public float getHeight(EntityPolarBear bear) {
+		return 1.5F + (bear.isStanding() ? 8.2F : 1.8F);
+	}
 }

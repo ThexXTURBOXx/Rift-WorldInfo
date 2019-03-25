@@ -5,8 +5,8 @@ import net.minecraft.entity.passive.AbstractFish;
 
 public class HandlerAbstractFish implements IEntityRenderHandler<AbstractFish> {
 
-    @Override
-    public float getScale(AbstractFish fish) {
-        return 2.0F;
-    }
+	@Override
+	public float getScale(AbstractFish fish) {
+		return 2.0F;
+	}
 }

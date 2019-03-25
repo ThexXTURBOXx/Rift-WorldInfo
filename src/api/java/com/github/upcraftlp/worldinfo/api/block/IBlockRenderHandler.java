@@ -7,30 +7,31 @@ import net.minecraft.world.IBlockReader;
 
 public interface IBlockRenderHandler {
 
-    default float getWidth(IBlockState state, IBlockReader world, BlockPos pos) {
-        return 1.0F;
-    }
+	default float getWidth(IBlockState state, IBlockReader world, BlockPos pos) {
+		return 1.0F;
+	}
 
-    default float getHeight(IBlockState state, IBlockReader world, BlockPos pos) {
-        return 1.0F;
-    }
+	default float getHeight(IBlockState state, IBlockReader world, BlockPos pos) {
+		return 1.0F;
+	}
 
-    default float getScale() {
-        return 1.0F;
-    }
+	default float getScale() {
+		return 1.0F;
+	}
 
-    /**
-     * @return a (translated) String for displaying the Block's name
-     */
-    default String getBlockDisplayString(ItemStack stack, IBlockState state, IBlockReader blockReader, BlockPos pos) {
-        return stack.getDisplayName().getFormattedText();
-    }
+	/**
+	 * @return a (translated) String for displaying the Block's name
+	 */
+	default String getBlockDisplayString(ItemStack stack, IBlockState state, IBlockReader blockReader, BlockPos pos) {
+		return stack.getDisplayName().getFormattedText();
+	}
 
-    /**
-     * hook for rendering the Blockstate yourself<br/>
-     * return {@code true} if you want to cancel regular rendering
-     */
-    default boolean renderBlock(IBlockReader blockReader, IBlockState state, BlockPos pos) {
-        return false;
-    }
+	/**
+	 * Hook for rendering the Blockstate yourself.<br/>
+	 *
+	 * @return {@code true} if you want to cancel regular rendering
+	 */
+	default boolean renderBlock(IBlockReader blockReader, IBlockState state, BlockPos pos) {
+		return false;
+	}
 }
