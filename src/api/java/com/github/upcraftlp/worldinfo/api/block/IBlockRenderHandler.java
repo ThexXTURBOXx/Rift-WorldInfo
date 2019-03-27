@@ -34,4 +34,5 @@ public interface IBlockRenderHandler {
 	default boolean renderBlock(IBlockReader blockReader, IBlockState state, BlockPos pos) {
 		return false;
 	}
+
 }

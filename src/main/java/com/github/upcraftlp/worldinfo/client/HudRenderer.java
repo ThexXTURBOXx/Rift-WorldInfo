@@ -1,9 +1,11 @@
 package com.github.upcraftlp.worldinfo.client;
 
 import com.github.upcraftlp.worldinfo.WorldInfo;
+import com.github.upcraftlp.worldinfo.api.InfoHandlers;
 import com.github.upcraftlp.worldinfo.api.RenderingHandlers;
 import com.github.upcraftlp.worldinfo.api.block.IBlockRenderHandler;
 import com.github.upcraftlp.worldinfo.api.entity.IEntityRenderHandler;
+import com.github.upcraftlp.worldinfo.api.util.TurboUtils;
 import java.util.List;
 import net.insomniakitten.pylon.annotation.Listener;
 import net.insomniakitten.pylon.ref.Side;
@@ -77,16 +79,16 @@ public class HudRenderer implements OverlayRenderer {
 							stack = new ItemStack(block);
 						}
 					}
-					List<String> info = InfoHandler.getBlockInfo(state);
+					List<String> info = InfoHandlers.getInfo(state, mc.world.getTileEntity(pos));
 					ItemGroup itemGroup = stack.getItem().getGroup();
 					String group;
 					if (itemGroup != null) {
 						if (itemGroup.getIndex() <= 11)
-							group = "Minecraft";
+							group = I18n.format("worldinfo.info.minecraft");
 						else
 							group = I18n.format(itemGroup.getTranslationKey());
 					} else {
-						group = "Unknown";
+						group = I18n.format("worldinfo.info.unknown");
 					}
 
 					IBlockRenderHandler blockRenderHandler = RenderingHandlers.getBlockHandler(itemName);
@@ -102,9 +104,11 @@ public class HudRenderer implements OverlayRenderer {
 					for (int i = 0; i < infoWidths.length; i++) {
 						infoWidths[i] = mc.fontRenderer.getStringWidth(info.get(i));
 					}
-					int w = (int) RenderUtil.maxOr(0, RenderUtil.maxOr(0, infoWidths), bWidth, blockNameWidth, groupWidth) * 2;
-					int h = (int) (bHeight + (2 + info.size()) //2: Name, Creative Tab
-							* (mc.fontRenderer.FONT_HEIGHT + LINE_MARGIN));
+					int w = (int) TurboUtils.maxOr(0, TurboUtils.maxOr(0, infoWidths), bWidth, blockNameWidth, groupWidth) * 2;
+					int h = (int) (bHeight //Block Render
+							+ (2 * (mc.fontRenderer.FONT_HEIGHT + LINE_MARGIN)) //Name, Creative Tab
+							+ (info.size() * mc.fontRenderer.FONT_HEIGHT) //Info lines
+							+ (info.size() > 0 ? LINE_MARGIN : 0)); //Space at the end
 					drawBackgroundBox(x + w / 4, y - LINE_MARGIN, w + LINE_MARGIN * 3, h);
 
 					//render the block's item

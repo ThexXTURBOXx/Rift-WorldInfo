@@ -1,0 +1,19 @@
+{
+  "worldinfo.info.growth": "Wachstum",
+  "worldinfo.info.power": "Stärke",
+  "worldinfo.info.on": "An",
+  "worldinfo.info.off": "Aus",
+  "worldinfo.info.delay": "Verzögerung",
+  "worldinfo.info.mode": "Modus",
+  "worldinfo.info.day": "Tag",
+  "worldinfo.info.night": "Nacht",
+  "worldinfo.info.mob": "Kreatur",
+  "worldinfo.info.mature": "Erwachsen",
+  "worldinfo.info.ripe": "Reif",
+  "worldinfo.info.level": "Stufe",
+  "worldinfo.info.effect": "Effekt",
+  "worldinfo.info.compare": "Vergleich",
+  "worldinfo.info.subtract": "Differenz",
+  "worldinfo.info.minecraft": "Minecraft",
+  "worldinfo.info.unknown": "Unbekannt"
+}

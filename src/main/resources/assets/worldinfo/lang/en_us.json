@@ -1,0 +1,19 @@
+{
+  "worldinfo.info.growth": "Growth",
+  "worldinfo.info.power": "Power",
+  "worldinfo.info.on": "On",
+  "worldinfo.info.off": "Off",
+  "worldinfo.info.delay": "Delay",
+  "worldinfo.info.mode": "Mode",
+  "worldinfo.info.day": "Day",
+  "worldinfo.info.night": "Night",
+  "worldinfo.info.mob": "Mob",
+  "worldinfo.info.mature": "Mature",
+  "worldinfo.info.ripe": "Ripe",
+  "worldinfo.info.level": "Tier",
+  "worldinfo.info.effect": "Effect",
+  "worldinfo.info.compare": "Compare",
+  "worldinfo.info.subtract": "Subtract",
+  "worldinfo.info.minecraft": "Minecraft",
+  "worldinfo.info.unknown": "Unknown"
+}

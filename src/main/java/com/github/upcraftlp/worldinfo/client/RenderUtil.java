@@ -77,14 +77,4 @@ public class RenderUtil {
 		drawGradientRect(x + 1, y + height - 1, width - 1, 1, gradientColorEnd, gradientColorEnd);
 	}
 
-	public static double maxOr(double defaultVal, double... n) {
-		if (n.length == 0)
-			return defaultVal;
-		double max = n[0];
-		for (int i = 1; i < n.length; i++) {
-			max = Math.max(max, n[i]);
-		}
-		return max;
-	}
-
 }

@@ -1,7 +1,9 @@
 package com.github.upcraftlp.worldinfo;
 
+import com.github.upcraftlp.worldinfo.api.InfoHandlers;
 import com.github.upcraftlp.worldinfo.api.RenderingHandlers;
 import com.github.upcraftlp.worldinfo.api.entity.DefaultEntityHandler;
+import com.github.upcraftlp.worldinfo.client.handler.block.DefaultBlockInfoHandler;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractFish;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractHorse;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerDolphin;
@@ -136,5 +138,7 @@ public class WorldInfo implements MinecraftStartListener {
 		RenderingHandlers.addEntityHandler(EntityWolf.class, new DefaultEntityHandler<>(2.2F, -0.25F));
 		RenderingHandlers.addEntityHandler(EntityPig.class, new DefaultEntityHandler<>(2.2F, -0.25F));
 		RenderingHandlers.addEntityHandler(EntityChicken.class, new DefaultEntityHandler<>(2.2F, 0.0F, 1.1F));
+
+		InfoHandlers.addBlockHandler(new DefaultBlockInfoHandler());
 	}
 }
