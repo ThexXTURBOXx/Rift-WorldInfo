@@ -4,21 +4,26 @@ import com.github.upcraftlp.worldinfo.WorldInfo;
 import com.github.upcraftlp.worldinfo.api.RenderingHandlers;
 import com.github.upcraftlp.worldinfo.api.block.IBlockRenderHandler;
 import com.github.upcraftlp.worldinfo.api.entity.IEntityRenderHandler;
+import java.util.List;
 import net.insomniakitten.pylon.annotation.Listener;
 import net.insomniakitten.pylon.ref.Side;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.registry.IRegistry;
+import net.minecraft.util.text.TextFormatting;
 import org.dimdev.rift.listener.client.OverlayRenderer;
 
 @Listener(side = Side.CLIENT)
@@ -30,12 +35,13 @@ public class HudRenderer implements OverlayRenderer {
 	//TODO offset if there is one or more boss bar
 	//TODO show what mod a block belongs to
 
-	private static final int NAME_MARGIN = 4;
+	private static final int LINE_MARGIN = 4;
 	private static final int COLOR_BOX_ALPHA = 0x7F << 24;
 	//private static final int COLOR_WHITE = COLOR_BOX_ALPHA | 0xFFFFFF;
 	private static final int COLOR_BOX_BG = COLOR_BOX_ALPHA | 0x100010;
 	private static final int COLOR_BOX_FRAME_START = COLOR_BOX_ALPHA | 0x5000FF;
 	private static final int COLOR_BOX_FRAME_END = COLOR_BOX_ALPHA | 0x28007F;
+	private static final ResourceLocation AIR = new ResourceLocation("air");
 
 	//static so other renders can query and/or change them
 	public static int x, y;
@@ -60,20 +66,46 @@ public class HudRenderer implements OverlayRenderer {
 					y += 4;
 					BlockPos pos = result.getBlockPos();
 					IBlockState state = mc.world.getBlockState(pos);
-					ItemStack stack = state.getBlock().getItem(mc.world, pos, state);
+					Block block = state.getBlock();
+					ItemStack stack = block.getItem(mc.world, pos, state);
 					ResourceLocation itemName = IRegistry.ITEM.getKey(stack.getItem());
-					if (itemName == null) itemName = new ResourceLocation("air");
+					if (itemName == null || itemName.equals(AIR)) {
+						itemName = IRegistry.ITEM.getKey(block.asItem());
+						if (itemName == null) {
+							itemName = AIR;
+						} else {
+							stack = new ItemStack(block);
+						}
+					}
+					List<String> info = InfoHandler.getBlockInfo(state);
+					ItemGroup itemGroup = stack.getItem().getGroup();
+					String group;
+					if (itemGroup != null) {
+						if (itemGroup.getIndex() <= 11)
+							group = "Minecraft";
+						else
+							group = I18n.format(itemGroup.getTranslationKey());
+					} else {
+						group = "Unknown";
+					}
+
 					IBlockRenderHandler blockRenderHandler = RenderingHandlers.getBlockHandler(itemName);
 					scale *= blockRenderHandler.getScale();
 
 					String blockDisplayName = blockRenderHandler.getBlockDisplayString(stack, state, mc.world, pos);
 					int blockNameWidth = mc.fontRenderer.getStringWidth(blockDisplayName);
+					int groupWidth = mc.fontRenderer.getStringWidth(group);
 					double bWidth = blockRenderHandler.getWidth(state, mc.world, pos) * scale;
 					double bHeight = blockRenderHandler.getHeight(state, mc.world, pos) * scale;
 
-					int w = (int) Math.max(bWidth, blockNameWidth) * 2;
-					int h = (int) (bHeight + mc.fontRenderer.FONT_HEIGHT + NAME_MARGIN);
-					drawBackgroundBox(x + w / 4, y - NAME_MARGIN, w + NAME_MARGIN * 3, h);
+					double[] infoWidths = new double[info.size()];
+					for (int i = 0; i < infoWidths.length; i++) {
+						infoWidths[i] = mc.fontRenderer.getStringWidth(info.get(i));
+					}
+					int w = (int) RenderUtil.maxOr(0, RenderUtil.maxOr(0, infoWidths), bWidth, blockNameWidth, groupWidth) * 2;
+					int h = (int) (bHeight + (2 + info.size()) //2: Name, Creative Tab
+							* (mc.fontRenderer.FONT_HEIGHT + LINE_MARGIN));
+					drawBackgroundBox(x + w / 4, y - LINE_MARGIN, w + LINE_MARGIN * 3, h);
 
 					//render the block's item
 					GlStateManager.pushMatrix();
@@ -86,7 +118,17 @@ public class HudRenderer implements OverlayRenderer {
 					}
 					GlStateManager.popMatrix();
 
-					mc.fontRenderer.drawStringWithShadow(blockDisplayName, x - Math.round(blockNameWidth / 2.0F) - 2, y - 2, 0xFFFFFFFF);
+					y -= 2;
+					x -= 2;
+					mc.fontRenderer.drawStringWithShadow(blockDisplayName, x - Math.round(blockNameWidth / 2.0F), y, 0xFFFFFFFF);
+					y += LINE_MARGIN + mc.fontRenderer.FONT_HEIGHT;
+					mc.fontRenderer.drawStringWithShadow(TextFormatting.ITALIC + group, x - Math.round(groupWidth / 2.0F), y, 0xFF0000FF);
+					y += LINE_MARGIN + mc.fontRenderer.FONT_HEIGHT;
+					for (int i = 0; i < info.size(); i++) {
+						String infoLine = info.get(i);
+						mc.fontRenderer.drawStringWithShadow(infoLine, x - Math.round(infoWidths[i] / 2.0F), y, 0xFFAAAAAA);
+						y += mc.fontRenderer.FONT_HEIGHT;
+					}
 				} else if (result.type == RayTraceResult.Type.ENTITY) {
 					EntityLivingBase entity = null;
 					if (result.entity instanceof EntityLivingBase) entity = (EntityLivingBase) result.entity;
@@ -105,12 +147,12 @@ public class HudRenderer implements OverlayRenderer {
 							int entityNameWidth = mc.fontRenderer.getStringWidth(name);
 
 							int w = (int) Math.max(eWidth, entityNameWidth) * 2;
-							int h = (int) (eHeight + mc.fontRenderer.FONT_HEIGHT + NAME_MARGIN * 3);
-							drawBackgroundBox(x + w / 4 + NAME_MARGIN / 2, y, w + NAME_MARGIN * 3, h);
+							int h = (int) (eHeight + mc.fontRenderer.FONT_HEIGHT + LINE_MARGIN * 3);
+							drawBackgroundBox(x + w / 4 + LINE_MARGIN / 2, y, w + LINE_MARGIN * 3, h);
 
 							GlStateManager.pushMatrix();
 							{
-								y += NAME_MARGIN;
+								y += LINE_MARGIN;
 								y += eHeight;
 								GlStateManager.translatef(x + renderHandler.getOffsetX() * scale, y - renderHandler.getOffsetY() * scale, zLevel);
 								if (!renderHandler.renderEntity(entity)) {
@@ -119,7 +161,7 @@ public class HudRenderer implements OverlayRenderer {
 							}
 							GlStateManager.popMatrix();
 
-							y += NAME_MARGIN;
+							y += LINE_MARGIN;
 							mc.fontRenderer.drawStringWithShadow(name, x - entityNameWidth / 2.0F, y, 0xFFFFFFFF);
 						}
 					}
@@ -136,4 +178,5 @@ public class HudRenderer implements OverlayRenderer {
 		}
 		GlStateManager.popMatrix();
 	}
+
 }
