@@ -79,12 +79,14 @@ dependencies {
 
     //TODO switch to runtime once ATs work
     //TODO switch to universal jar once deobfCompile works
-    implementation "com.github.shedaniel:RoughlyEnoughItems:${rei_version}"
+    //implementation "com.github.shedaniel:RoughlyEnoughItems:${rei_version}"
 
     //implementation "com.github.boundarybreaker:ProbeDataProvider:${pdp_version}"
 
     //annotation magic ftw
-    compileOnly "com.github.InsomniaKitten:Pylon:${pylon_version}"
+    compileOnly("com.github.InsomniaKitten:Pylon:${pylon_version}") {
+        exclude group: "org.dimdev", module: "rift"
+    }
     annotationProcessor "com.github.InsomniaKitten:Pylon:${pylon_version}"
 
 }

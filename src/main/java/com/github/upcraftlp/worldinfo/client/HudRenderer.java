@@ -7,7 +7,7 @@ import com.github.upcraftlp.worldinfo.api.block.IBlockRenderHandler;
 import com.github.upcraftlp.worldinfo.api.entity.IEntityRenderHandler;
 import com.github.upcraftlp.worldinfo.api.util.TurboUtils;
 import java.util.List;
-import net.insomniakitten.pylon.annotation.Listener;
+import net.insomniakitten.pylon.annotation.rift.Listener;
 import net.insomniakitten.pylon.ref.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
