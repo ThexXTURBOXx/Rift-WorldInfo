@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class InfoHandlers {
 
@@ -18,10 +20,10 @@ public class InfoHandlers {
 		BLOCK_INFO_HANDLERS.add(infoHandler);
 	}
 
-	public static List<String> getInfo(IBlockState state, @Nullable TileEntity tileEntity) {
+	public static List<String> getInfo(World world, BlockPos pos, IBlockState state, @Nullable TileEntity tileEntity) {
 		List<String> info = new ArrayList<>();
 		for (IBlockInfoHandler handler : BLOCK_INFO_HANDLERS) {
-			info.addAll(handler.getInfo(state, tileEntity));
+			info.addAll(handler.getInfo(world, pos, state, tileEntity));
 		}
 		return info;
 	}

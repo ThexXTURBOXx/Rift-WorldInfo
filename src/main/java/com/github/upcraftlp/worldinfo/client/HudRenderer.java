@@ -32,10 +32,8 @@ import org.dimdev.rift.listener.client.OverlayRenderer;
 public class HudRenderer implements OverlayRenderer {
 
 	//TODO fluids -> config?
-	//TODO more information about blocks
 	//TODO entity health
 	//TODO offset if there is one or more boss bar
-	//TODO show what mod a block belongs to
 
 	private static final int LINE_MARGIN = 4;
 	private static final int COLOR_BOX_ALPHA = 0x7F << 24;
@@ -79,7 +77,7 @@ public class HudRenderer implements OverlayRenderer {
 							stack = new ItemStack(block);
 						}
 					}
-					List<String> info = InfoHandlers.getInfo(state, mc.world.getTileEntity(pos));
+					List<String> info = InfoHandlers.getInfo(mc.world, pos, state, mc.world.getTileEntity(pos));
 					ItemGroup itemGroup = stack.getItem().getGroup();
 					String group;
 					if (itemGroup != null) {

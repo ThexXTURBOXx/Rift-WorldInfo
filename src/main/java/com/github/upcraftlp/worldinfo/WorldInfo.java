@@ -84,7 +84,7 @@ public class WorldInfo implements MinecraftStartListener {
 
 	@Override
 	public void onMinecraftStart() {
-		LOG.info("loaded World Info HUD!");
+		LOG.info("Loaded World Info HUD!");
 		registerVanillaEntityHandlers();
 	}
 
