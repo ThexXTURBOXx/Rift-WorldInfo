@@ -19,13 +19,12 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.MultiPartEntityPart;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.registry.IRegistry;
-import net.minecraft.util.text.TextFormatting;
 import org.dimdev.rift.listener.client.OverlayRenderer;
 
 @Listener(side = Side.CLIENT)
@@ -68,9 +67,9 @@ public class HudRenderer implements OverlayRenderer {
 					IBlockState state = mc.world.getBlockState(pos);
 					Block block = state.getBlock();
 					ItemStack stack = block.getItem(mc.world, pos, state);
-					ResourceLocation itemName = IRegistry.ITEM.getKey(stack.getItem());
+					ResourceLocation itemName = Item.REGISTRY.getKey(stack.getItem());
 					if (itemName == null || itemName.equals(AIR)) {
-						itemName = IRegistry.ITEM.getKey(block.asItem());
+						itemName = Item.REGISTRY.getKey(block.asItem());
 						if (itemName == null) {
 							itemName = AIR;
 						} else {
@@ -124,7 +123,7 @@ public class HudRenderer implements OverlayRenderer {
 					x -= 2;
 					mc.fontRenderer.drawStringWithShadow(blockDisplayName, x - Math.round(blockNameWidth / 2.0F), y, 0xFFFFFFFF);
 					y += LINE_MARGIN + mc.fontRenderer.FONT_HEIGHT;
-					mc.fontRenderer.drawStringWithShadow(TextFormatting.ITALIC + group, x - Math.round(groupWidth / 2.0F), y, 0xFF0000FF);
+					mc.fontRenderer.drawStringWithShadow("§o" + group, x - Math.round(groupWidth / 2.0F), y, 0xFF0000FF);
 					y += LINE_MARGIN + mc.fontRenderer.FONT_HEIGHT;
 					for (int i = 0; i < info.size(); i++) {
 						String infoLine = info.get(i);
@@ -138,7 +137,7 @@ public class HudRenderer implements OverlayRenderer {
 						IEntityMultiPart multiPart = ((MultiPartEntityPart) result.entity).parent;
 						if (multiPart instanceof EntityLivingBase) entity = (EntityLivingBase) multiPart;
 					}
-					if (entity != null && entity.isAlive()) {
+					if (entity != null && entity.isEntityAlive()) {
 						if (!RenderingHandlers.isEntityBlacklisted(entity.getClass())) {
 							IEntityRenderHandler renderHandler = RenderingHandlers.getEntityHandler(entity.getClass());
 							scale *= renderHandler.getScale(entity);

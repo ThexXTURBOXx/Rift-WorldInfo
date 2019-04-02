@@ -1,8 +1,6 @@
 buildscript {
     repositories {
         jcenter()
-        mavenCentral()
-        //maven { url 'https://www.jitpack.io' }
         maven {
             name = "DimDev"
             url = "https://www.dimdev.org/maven/"
@@ -15,13 +13,9 @@ buildscript {
             name = "Sonatype"
             url = 'https://oss.sonatype.org/content/groups/public'
         }
-        maven {
-            name = "Femtopedia"
-            url = "http://femtopedia.de/maven"
-        }
     }
     dependencies {
-        classpath 'com.github.ThexXTURBOXx:ForgeGradle:moderniser-SNAPSHOT'
+        classpath 'org.dimdev:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 
@@ -70,27 +64,19 @@ repositories {
         name = "JitPack"
         url = "https://jitpack.io"
     }
-
-    maven {
-        name = "Femtopedia"
-        url = "http://femtopedia.de/maven/"
-    }
-    maven { url 'http://repo.strezz.org/artifactory/list/Strezz-Central' }
 }
 
 dependencies {
-    implementation 'com.github.Chocohead:Rift:jitpack-SNAPSHOT:dev'
+    implementation "org.dimdev:rift:${rift_version}:dev"
 
     //TODO switch to runtime once ATs work
     //TODO switch to universal jar once deobfCompile works
-    //implementation "com.github.shedaniel:RoughlyEnoughItems:${rei_version}"
+    //implementation "com.github.ZenDarva:AlmostEnoughItems:${aei_version}:dev"
 
     //implementation "com.github.boundarybreaker:ProbeDataProvider:${pdp_version}"
 
     //annotation magic ftw
-    compileOnly("com.github.InsomniaKitten:Pylon:${pylon_version}") {
-        exclude group: "org.dimdev", module: "rift"
-    }
+    compileOnly "com.github.InsomniaKitten:Pylon:${pylon_version}"
     annotationProcessor "com.github.InsomniaKitten:Pylon:${pylon_version}"
 
 }
