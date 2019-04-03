@@ -31,8 +31,6 @@ import org.dimdev.rift.listener.client.OverlayRenderer;
 public class HudRenderer implements OverlayRenderer {
 
 	//TODO fluids -> config?
-	//TODO entity health
-	//TODO offset if there is one or more boss bar
 
 	private static final int LINE_MARGIN = 4;
 	private static final int COLOR_BOX_ALPHA = 0x7F << 24;
@@ -55,8 +53,11 @@ public class HudRenderer implements OverlayRenderer {
 			//int height = mc.mainWindow.getScaledHeight();  //TODO remove
 			RayTraceResult result = mc.objectMouseOver;
 			if (result != null && result.type != RayTraceResult.Type.MISS) {
+				int bossBarOffset =
+						Math.min(mc.ingameGUI.getBossOverlay().mapBossInfos.size() * (10 + mc.fontRenderer.FONT_HEIGHT),
+								mc.mainWindow.getScaledHeight() / 3);
 				x = (int) (width / 2.0F);
-				y = 2;
+				y = 2 + bossBarOffset;
 				float scale = 10;
 				int zLevel = 100;
 
@@ -77,6 +78,18 @@ public class HudRenderer implements OverlayRenderer {
 						}
 					}
 					List<String> info = InfoHandlers.getInfo(mc.world, pos, state, mc.world.getTileEntity(pos));
+					String harvest;
+					boolean harvestable = false;
+					float hardness = state.getBlockHardness(mc.world, pos);
+					if (hardness == -1.0F || hardness == -1.0D || hardness == -1) {
+						harvest = I18n.format("worldinfo.info.unbreakable");
+					} else if (mc.player.canHarvestBlock(state)) {
+						harvestable = true;
+						harvest = I18n.format("worldinfo.info.harvest");
+					} else {
+						harvest = I18n.format("worldinfo.info.notharvest");
+					}
+					info.add((harvestable ? "§a✔" : "§4✘") + " §r" + harvest);
 					ItemGroup itemGroup = stack.getItem().getGroup();
 					String group;
 					if (itemGroup != null) {
@@ -102,24 +115,26 @@ public class HudRenderer implements OverlayRenderer {
 						infoWidths[i] = mc.fontRenderer.getStringWidth(info.get(i));
 					}
 					int w = (int) TurboUtils.maxOr(0, TurboUtils.maxOr(0, infoWidths), bWidth, blockNameWidth, groupWidth) * 2;
-					int h = (int) (bHeight //Block Render
+					int h = (int) ((itemName.equals(AIR) ? 0 : bHeight) //Block Render
 							+ (2 * (mc.fontRenderer.FONT_HEIGHT + LINE_MARGIN)) //Name, Creative Tab
 							+ (info.size() * mc.fontRenderer.FONT_HEIGHT) //Info lines
 							+ (info.size() > 0 ? LINE_MARGIN : 0)); //Space at the end
 					drawBackgroundBox(x + w / 4, y - LINE_MARGIN, w + LINE_MARGIN * 3, h);
 
-					//render the block's item
-					GlStateManager.pushMatrix();
-					RenderHelper.enableGUIStandardItemLighting();
-					{
-						if (!blockRenderHandler.renderBlock(mc.world, state, pos)) {
-							mc.getItemRenderer().renderItemAndEffectIntoGUI(mc.player, stack, (int) (x - bWidth / 2.0F), y);
+					if (!itemName.equals(AIR)) {
+						//render the block's item
+						GlStateManager.pushMatrix();
+						RenderHelper.enableGUIStandardItemLighting();
+						{
+							if (!blockRenderHandler.renderBlock(mc.world, state, pos)) {
+								mc.getItemRenderer().renderItemAndEffectIntoGUI(mc.player, stack, (int) (x - bWidth / 2.0F), y);
+							}
+							y += bHeight;
 						}
-						y += bHeight;
+						GlStateManager.popMatrix();
+						y -= 2;
 					}
-					GlStateManager.popMatrix();
 
-					y -= 2;
 					x -= 2;
 					mc.fontRenderer.drawStringWithShadow(blockDisplayName, x - Math.round(blockNameWidth / 2.0F), y, 0xFFFFFFFF);
 					y += LINE_MARGIN + mc.fontRenderer.FONT_HEIGHT;
@@ -146,9 +161,15 @@ public class HudRenderer implements OverlayRenderer {
 
 							String name = renderHandler.getEntityDisplayString(entity);
 							int entityNameWidth = mc.fontRenderer.getStringWidth(name);
+							float maxHealth = entity.getMaxHealth();
+							float health = Math.min(maxHealth, entity.getHealth());
+							String healthString = TurboUtils.round(health, 1) + " ❤ / " + TurboUtils.round(maxHealth, 1) + " ❤";
+							int healthWidth = mc.fontRenderer.getStringWidth(healthString);
 
-							int w = (int) Math.max(eWidth, entityNameWidth) * 2;
-							int h = (int) (eHeight + mc.fontRenderer.FONT_HEIGHT + LINE_MARGIN * 3);
+							int w = (int) TurboUtils.maxOr(0, eWidth, entityNameWidth, healthWidth) * 2;
+							int h = (int) (eHeight //Entity
+									+ (mc.fontRenderer.FONT_HEIGHT + LINE_MARGIN) * 2 //2 lines
+									+ LINE_MARGIN * 2); //Top & Bottom Margin
 							drawBackgroundBox(x + w / 4 + LINE_MARGIN / 2, y, w + LINE_MARGIN * 3, h);
 
 							GlStateManager.pushMatrix();
@@ -164,6 +185,8 @@ public class HudRenderer implements OverlayRenderer {
 
 							y += LINE_MARGIN;
 							mc.fontRenderer.drawStringWithShadow(name, x - entityNameWidth / 2.0F, y, 0xFFFFFFFF);
+							y += LINE_MARGIN + mc.fontRenderer.FONT_HEIGHT;
+							mc.fontRenderer.drawStringWithShadow(healthString, x - healthWidth / 2.0F, y, 0xFFFFFFFF);
 						}
 					}
 				}

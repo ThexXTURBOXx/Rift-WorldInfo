@@ -2,8 +2,10 @@ package com.github.upcraftlp.worldinfo.api.util;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.init.Blocks;
+import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.properties.ComparatorMode;
 import net.minecraft.state.properties.NoteBlockInstrument;
 import net.minecraft.state.properties.StructureMode;
@@ -34,8 +36,12 @@ public class TurboUtils {
 				I18n.format("worldinfo.info.no");
 	}
 
-	public static String round(Number r) {
-		DecimalFormat df = new DecimalFormat("#.##");
+	public static String round(Number r, int places) {
+		StringBuilder format = new StringBuilder("#.");
+		for (int i = 0; i < places; i++) {
+			format.append('#');
+		}
+		DecimalFormat df = new DecimalFormat(format.toString());
 		df.setRoundingMode(RoundingMode.CEILING);
 		return df.format(r);
 	}
@@ -185,6 +191,17 @@ public class TurboUtils {
 			}
 		}
 		return l;
+	}
+
+	public static String getStageProgress(IBlockState state, IntegerProperty ageProperty, int maxAge) {
+		int age = state.get(ageProperty);
+		if (age >= maxAge) {
+			return I18n.format("worldinfo.info.growth") + ": " + I18n.format("worldinfo.info.mature");
+		} else {
+			return I18n.format("worldinfo.info.growth") + ": "
+					+ round(age / (double) maxAge * 100d, 2)
+					+ "%";
+		}
 	}
 
 }

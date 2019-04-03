@@ -89,50 +89,22 @@ public class DefaultBlockInfoHandler implements IBlockInfoHandler {
 		}
 		if (block instanceof BlockCrops) {
 			if (state.has(((BlockCrops) block).getAgeProperty())) {
-				if (((BlockCrops) block).isMaxAge(state)) {
-					info.add(I18n.format("worldinfo.info.growth") + ": " + I18n.format("worldinfo.info.mature"));
-				} else {
-					int age = state.get(((BlockCrops) block).getAgeProperty());
-					info.add(I18n.format("worldinfo.info.growth") + ": "
-							+ TurboUtils.round(age / (double) ((BlockCrops) block).getMaxAge() * 100d)
-							+ "%");
-				}
+				info.add(TurboUtils.getStageProgress(state, ((BlockCrops) block).getAgeProperty(), ((BlockCrops) block).getMaxAge()));
 			}
 		}
 		if (block instanceof BlockCocoa) {
 			if (state.has(BlockCocoa.AGE)) {
-				int age = state.get(BlockCocoa.AGE);
-				if (age >= 2) {
-					info.add(I18n.format("worldinfo.info.growth") + ": " + I18n.format("worldinfo.info.mature"));
-				} else {
-					info.add(I18n.format("worldinfo.info.growth") + ": "
-							+ TurboUtils.round(age / 2d * 100d)
-							+ "%");
-				}
+				info.add(TurboUtils.getStageProgress(state, BlockCocoa.AGE, 2));
 			}
 		}
 		if (block instanceof BlockNetherWart) {
 			if (state.has(BlockNetherWart.AGE)) {
-				int age = state.get(BlockNetherWart.AGE);
-				if (age >= 3) {
-					info.add(I18n.format("worldinfo.info.growth") + ": " + I18n.format("worldinfo.info.mature"));
-				} else {
-					info.add(I18n.format("worldinfo.info.growth") + ": "
-							+ TurboUtils.round(age / 3d * 100d)
-							+ "%");
-				}
+				info.add(TurboUtils.getStageProgress(state, BlockNetherWart.AGE, 3));
 			}
 		}
 		if (block instanceof BlockStem) {
 			if (state.has(BlockStem.AGE)) {
-				int age = state.get(BlockStem.AGE);
-				if (age >= 7) {
-					info.add(I18n.format("worldinfo.info.growth") + ": " + I18n.format("worldinfo.info.mature"));
-				} else {
-					info.add(I18n.format("worldinfo.info.growth") + ": "
-							+ TurboUtils.round(age / 7d * 100d)
-							+ "%");
-				}
+				info.add(TurboUtils.getStageProgress(state, BlockStem.AGE, 7));
 			}
 		}
 		if (block instanceof BlockAttachedStem) {
@@ -167,7 +139,7 @@ public class DefaultBlockInfoHandler implements IBlockInfoHandler {
 		}
 		if (block instanceof BlockCauldron) {
 			if (state.has(BlockCauldron.LEVEL)) {
-				info.add(I18n.format("worldinfo.info.water_level") + ": " + TurboUtils.round(state.get(BlockCauldron.LEVEL) / 3d * 1000d) + "mB");
+				info.add(I18n.format("worldinfo.info.water_level") + ": " + TurboUtils.round(state.get(BlockCauldron.LEVEL) / 3d * 1000d, 2) + "mB");
 			}
 		}
 		if (block instanceof BlockEndPortalFrame) {
@@ -192,14 +164,7 @@ public class DefaultBlockInfoHandler implements IBlockInfoHandler {
 		}
 		if (block instanceof BlockChorusFlower) {
 			if (state.has(BlockChorusFlower.AGE)) {
-				int age = state.get(BlockChorusFlower.AGE);
-				if (age >= 5) {
-					info.add(I18n.format("worldinfo.info.growth") + ": " + I18n.format("worldinfo.info.mature"));
-				} else {
-					info.add(I18n.format("worldinfo.info.growth") + ": "
-							+ TurboUtils.round(age / 5d * 100d)
-							+ "%");
-				}
+				info.add(TurboUtils.getStageProgress(state, BlockChorusFlower.AGE, 5));
 			}
 		}
 		if (block instanceof BlockFrostedIce) {
@@ -209,14 +174,7 @@ public class DefaultBlockInfoHandler implements IBlockInfoHandler {
 		}
 		if (block instanceof BlockKelpTop) {
 			if (state.has(BlockKelpTop.AGE)) {
-				int age = state.get(BlockKelpTop.AGE);
-				if (age >= 25) {
-					info.add(I18n.format("worldinfo.info.growth") + ": " + I18n.format("worldinfo.info.mature"));
-				} else {
-					info.add(I18n.format("worldinfo.info.growth") + ": "
-							+ TurboUtils.round(age / 25d * 100d)
-							+ "%");
-				}
+				info.add(TurboUtils.getStageProgress(state, BlockKelpTop.AGE, 25));
 			}
 		}
 		if (block instanceof BlockTurtleEgg) {
