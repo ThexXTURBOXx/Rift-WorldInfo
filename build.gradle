@@ -138,6 +138,9 @@ if (JavaVersion.current().isJava8Compatible()) {
         compileJava {
             options.encoding = 'UTF-8'
         }
+        javadoc {
+            options.encoding = 'UTF-8'
+        }
     }
 } else {
     throw new IllegalArgumentException("wrong java version")
