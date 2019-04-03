@@ -44,5 +44,8 @@
   "worldinfo.info.amount": "Amount",
   "worldinfo.info.enchantability": "Enchantability",
   "worldinfo.info.flower": "Flower",
-  "worldinfo.info.empty": "Empty"
+  "worldinfo.info.empty": "Empty",
+  "worldinfo.info.unbreakable": "Unbreakable",
+  "worldinfo.info.harvest": "Currently harvestable",
+  "worldinfo.info.notharvest": "Currently not harvestable"
 }

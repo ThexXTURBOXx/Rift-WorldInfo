@@ -44,5 +44,8 @@
   "worldinfo.info.amount": "Menge",
   "worldinfo.info.enchantability": "Bücherregale",
   "worldinfo.info.flower": "Blume",
-  "worldinfo.info.empty": "Leer"
+  "worldinfo.info.empty": "Leer",
+  "worldinfo.info.unbreakable": "Unbreakable",
+  "worldinfo.info.harvest": "Currently harvestable",
+  "worldinfo.info.notharvest": "Currently not harvestable"
 }
