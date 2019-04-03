@@ -32,7 +32,6 @@ import org.dimdev.rift.listener.client.OverlayRenderer;
 public class HudRenderer implements OverlayRenderer {
 
 	//TODO fluids -> config?
-	//TODO offset if there is one or more boss bar
 
 	private static final int LINE_MARGIN = 4;
 	private static final int COLOR_BOX_ALPHA = 0x7F << 24;
@@ -55,8 +54,11 @@ public class HudRenderer implements OverlayRenderer {
 			//int height = mc.mainWindow.getScaledHeight();  //TODO remove
 			RayTraceResult result = mc.objectMouseOver;
 			if (result != null && result.type != RayTraceResult.Type.MISS) {
+				int bossBarOffset =
+						Math.min(mc.ingameGUI.getBossOverlay().mapBossInfos.size() * (10 + mc.fontRenderer.FONT_HEIGHT),
+								mc.mainWindow.getScaledHeight() / 3);
 				x = (int) (width / 2.0F);
-				y = 2;
+				y = 2 + bossBarOffset;
 				float scale = 10;
 				int zLevel = 100;
 
