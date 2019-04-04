@@ -1,1 +1,2 @@
 public-f field cgi g Ljava/util/Map; # GuiBossOverlay#mapBossInfos
+public field cqu e F # PlayerControllerMP#curBlockDamageMP
