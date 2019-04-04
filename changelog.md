@@ -1,4 +1,11 @@
 ------------------------------------------------------
+v1.0.1
+------------------------------------------------------
+- Added Entity Info API
+- Fixed blocked Boss Bar
+- Added Harvestability
+- Added Entity Health
+------------------------------------------------------
 v1.0.0
 ------------------------------------------------------
 - First release version (From now on, Changelogs for 1.13 and 1.13.2 will be the same. 1.13 now has all the 1.13.2 features!)
