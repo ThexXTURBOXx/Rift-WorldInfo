@@ -166,17 +166,23 @@ public class HudRenderer implements OverlayRenderer {
 							float health = Math.min(maxHealth, entity.getHealth());
 							String healthString = TurboUtils.round(health, 1) + " ❤ / " + TurboUtils.round(maxHealth, 1) + " ❤";
 							int healthWidth = mc.fontRenderer.getStringWidth(healthString);
+							List<String> info = InfoHandlers.getInfo(entity);
+							double[] infoWidths = new double[info.size()];
+							for (int i = 0; i < infoWidths.length; i++) {
+								infoWidths[i] = mc.fontRenderer.getStringWidth(info.get(i));
+							}
 
-							int w = (int) TurboUtils.maxOr(0, eWidth, entityNameWidth, healthWidth) * 2;
+							int w = (int) TurboUtils.maxOr(0, TurboUtils.maxOr(0, infoWidths), eWidth, entityNameWidth, healthWidth) * 2;
 							int h = (int) (eHeight //Entity
 									+ (mc.fontRenderer.FONT_HEIGHT + LINE_MARGIN) * 2 //2 lines
+									+ (info.size() * mc.fontRenderer.FONT_HEIGHT) //Info lines
+									+ (info.size() > 0 ? LINE_MARGIN : 0) //Space at the end
 									+ LINE_MARGIN * 2); //Top & Bottom Margin
 							drawBackgroundBox(x + w / 4 + LINE_MARGIN / 2, y, w + LINE_MARGIN * 3, h);
 
 							GlStateManager.pushMatrix();
 							{
-								y += LINE_MARGIN;
-								y += eHeight;
+								y += LINE_MARGIN + eHeight;
 								GlStateManager.translatef(x + renderHandler.getOffsetX() * scale, y - renderHandler.getOffsetY() * scale, zLevel);
 								if (!renderHandler.renderEntity(entity)) {
 									GuiInventory.drawEntityOnScreen(0, 0, (int) scale * 2, 45, 0, entity);
@@ -188,6 +194,12 @@ public class HudRenderer implements OverlayRenderer {
 							mc.fontRenderer.drawStringWithShadow(name, x - entityNameWidth / 2.0F, y, 0xFFFFFFFF);
 							y += LINE_MARGIN + mc.fontRenderer.FONT_HEIGHT;
 							mc.fontRenderer.drawStringWithShadow(healthString, x - healthWidth / 2.0F, y, 0xFFFFFFFF);
+							y += LINE_MARGIN + mc.fontRenderer.FONT_HEIGHT;
+							for (int i = 0; i < info.size(); i++) {
+								String infoLine = info.get(i);
+								mc.fontRenderer.drawStringWithShadow(infoLine, x - Math.round(infoWidths[i] / 2.0F), y, 0xFFAAAAAA);
+								y += mc.fontRenderer.FONT_HEIGHT;
+							}
 						}
 					}
 				}

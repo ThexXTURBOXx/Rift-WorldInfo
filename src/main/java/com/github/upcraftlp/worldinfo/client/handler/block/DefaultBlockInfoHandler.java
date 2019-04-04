@@ -4,6 +4,7 @@ import com.github.upcraftlp.worldinfo.api.block.IBlockInfoHandler;
 import com.github.upcraftlp.worldinfo.api.util.TurboUtils;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAttachedStem;
@@ -47,6 +48,7 @@ import net.minecraft.world.World;
 
 public class DefaultBlockInfoHandler implements IBlockInfoHandler {
 
+	@Nonnull
 	@Override
 	public List<String> getInfo(World world, BlockPos pos, IBlockState state, @Nullable TileEntity te) {
 		List<String> info = new ArrayList<>();

@@ -2,8 +2,8 @@ package com.github.upcraftlp.worldinfo;
 
 import com.github.upcraftlp.worldinfo.api.InfoHandlers;
 import com.github.upcraftlp.worldinfo.api.RenderingHandlers;
-import com.github.upcraftlp.worldinfo.api.entity.DefaultEntityHandler;
 import com.github.upcraftlp.worldinfo.client.handler.block.DefaultBlockInfoHandler;
+import com.github.upcraftlp.worldinfo.client.handler.entity.DefaultEntityHandler;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractFish;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerAbstractHorse;
 import com.github.upcraftlp.worldinfo.client.handler.entity.HandlerDolphin;
@@ -90,6 +90,8 @@ public class WorldInfo implements MinecraftStartListener {
 
 	@SuppressWarnings("unchecked")
 	private static void registerVanillaEntityHandlers() {
+		//RENDERING HANDLERS
+
 		RenderingHandlers.addInfoExclusion(EntityArmorStand.class);
 		//TODO player doesn't seem to work
 		//TODO pufferfish
@@ -139,6 +141,7 @@ public class WorldInfo implements MinecraftStartListener {
 		RenderingHandlers.addEntityHandler(EntityPig.class, new DefaultEntityHandler<>(2.2F, -0.25F));
 		RenderingHandlers.addEntityHandler(EntityChicken.class, new DefaultEntityHandler<>(2.2F, 0.0F, 1.1F));
 
+		//INFO HANDLERS
 		InfoHandlers.addBlockHandler(new DefaultBlockInfoHandler());
 	}
 }
