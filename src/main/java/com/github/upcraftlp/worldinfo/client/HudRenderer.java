@@ -91,6 +91,10 @@ public class HudRenderer implements OverlayRenderer {
 						harvest = I18n.format("worldinfo.info.notharvest");
 					}
 					info.add((harvestable ? "§a✔" : "§4✘") + " §r" + harvest);
+					final double progress = mc.playerController.curBlockDamageMP;
+					if (progress > 0.0d) {
+						info.add(I18n.format("worldinfo.info.progression") + ": " + (int) (progress * 100) + "%");
+					}
 					ItemGroup itemGroup = stack.getItem().getGroup();
 					String group;
 					if (itemGroup != null) {

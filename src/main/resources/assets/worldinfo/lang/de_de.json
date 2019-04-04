@@ -47,5 +47,6 @@
   "worldinfo.info.empty": "Leer",
   "worldinfo.info.unbreakable": "Unbreakable",
   "worldinfo.info.harvest": "Currently harvestable",
-  "worldinfo.info.notharvest": "Currently not harvestable"
+  "worldinfo.info.notharvest": "Currently not harvestable",
+  "worldinfo.info.progression": "Fortschritt"
 }
